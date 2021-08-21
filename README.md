@@ -1,2 +1,2 @@
 ---
-![hacker101 ctf](https://ctf.hacker101.com/ctf)
+[hacker101 ctf](https://ctf.hacker101.com/ctf)
