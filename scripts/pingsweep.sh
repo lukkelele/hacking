@@ -1,13 +1,7 @@
 #!/bin/bash
 
-# Written by lukas , 20/11-2021
-# Dependencies: figlet
+# by lukas , 20/11-2021
 
-
-figlet pingsweep
-echo " 
-
-"
 
 if [ "$1" == "" ]
 then
