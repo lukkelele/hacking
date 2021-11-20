@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Written by lukas , 20/11-2021
+# Dependencies: figlet
+
+
 figlet pingsweep
 echo " 
 
