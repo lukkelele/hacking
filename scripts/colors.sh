@@ -13,16 +13,28 @@ LIGHTRED='\033[1;31m'
 LIGHTGREEN='\033[1;32m'
 NC='\033[0m'
 
-printf "I am ${RED}Lukas${NC}\n"
+if [ "$1" == "YELLOW" ]
+then
+  COLOR=$YELLOW
+elif [ "$1" == "GREEN" ]
+then
+  COLOR=$GREEN
+elif [ "$1" == "BLACK" ]
+then
+  COLOR=$BLACK
+elif [ "$1" == "WHITE" ]
+then
+  COLOR=$WHITE
+elif [ "$1" == "CYAN" ]
+then
+  COLOR=$CYAN
+elif [ "$1" == "PURPLE" ]
+then
+  COLOR=$PURPLE
+elif [ "$1" == "RED" ]
+then
+  COLOR=$RED
+fi
 
-
-while getopts "color:s:" opt
-do
-  case "$opt" in
-    color) c="$OPTARG" ;;
-    s) str="$OPTARG" ;;
-  esac
-done
-
-echo "$c"
+printf "==>${COLOR} $2 ${NC}\n"
 
