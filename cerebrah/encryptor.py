@@ -41,7 +41,6 @@ class Encryptor:
             key_path = key_dir + 'enckey.key'
             with open(key_path, "wb") as key_file:
                 key_file.write(key)
-        return key      # TODO: Remove this later
 
     def load_key(self, key_dir):
         key_dir += 'enckey.key'
@@ -50,17 +49,15 @@ class Encryptor:
     def encrypt(self, data, key):
         enc = Fernet(key)
         encrypted_data = enc.encrypt(data.encode())
-        print(encrypted_data)
         return encrypted_data
 
     def decrypt(self, data, key):
         enc = Fernet(key)
         decrypted_data = enc.decrypt(data)
-        print(decrypted_data.decode())
         return decrypted_data.decode()
 
 
 enc = Encryptor()
-k = enc.generate_key()
-enc_data = enc.encrypt('lukas', k)
-enc.decrypt(enc_data, k)
+enc_data = enc.encrypt('lukas', enc.key)
+print(enc_data)
+print(enc.decrypt(enc_data, enc.key))
