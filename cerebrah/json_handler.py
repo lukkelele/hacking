@@ -1,13 +1,10 @@
-import encryptor 
+from encryption import encryptor
 import json
 
+class json_handler:
 
-class Json_handler:
-
-    # TODO: Import functionality for possible existing keys
-    def __init__(self, file_path=''):
-        self.encryptor = encryptor.Encryptor(file_path)
-        self.private_key, self.public_key = self.encryptor.generate_keypair()
+    def __init__(self, key_dir=''):
+        self.encryptor = encryptor.Encryptor(key_dir)
 
     def read(self, file_path):
         json_data = self.parse_json(file_path)
@@ -24,11 +21,12 @@ class Json_handler:
         return data
 
     def encrypt_json(self, json_data):
-        encrypted_data = self.encryptor.encrypt(json_data, self.public_key)
+        json_data = str(json_data)
+        encrypted_data = self.encryptor.encrypt(json_data, self.encryptor.key)
         return encrypted_data
 
     def decrypt_json(self, json_data):
-        decrypted_data = self.encryptor.decrypt(json_data, self.private_key)
+        decrypted_data = self.encryptor.decrypt(json_data, self.encryptor.key)
         return decrypted_data
 
     def convert_to_json(self, file):
@@ -42,6 +40,10 @@ class Json_handler:
         with open(output, 'w') as json_file:
             json.dump(data, json_file, indent=2)
 
-j = Json_handler()
+j = json_handler()
 data = j.parse_json("./data.json")
 print(data)
+encrypted_data = j.encrypt_json(data)
+print(encrypted_data)
+decrypted_data = j.decrypt_json(encrypted_data)
+print(decrypted_data)
