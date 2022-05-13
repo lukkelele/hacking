@@ -55,7 +55,7 @@ class Encryptor:
         return decrypted_data.decode()
 
 
-enc = Encryptor()
-enc_data = enc.encrypt('lukas', enc.key)
-print(enc_data)
-print(enc.decrypt(enc_data, enc.key))
+#enc = Encryptor()
+#enc_data = enc.encrypt('lukas', enc.key)
+#print(enc_data)
+#print(enc.decrypt(enc_data, enc.key))
