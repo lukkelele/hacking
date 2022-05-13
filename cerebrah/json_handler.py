@@ -40,10 +40,3 @@ class json_handler:
         with open(output, 'w') as json_file:
             json.dump(data, json_file, indent=2)
 
-j = json_handler()
-data = j.parse_json("./data.json")
-print(data)
-encrypted_data = j.encrypt_json(data)
-print(encrypted_data)
-decrypted_data = j.decrypt_json(encrypted_data)
-print(decrypted_data)
