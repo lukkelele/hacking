@@ -1,6 +1,6 @@
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-from cryptography import fernet
+from cryptography.fernet import Fernet
 from Crypto import Hash
 from Crypto import Random
 import argparse
@@ -65,4 +65,21 @@ class Encryptor:
         if decode == True: return decrypted_data.decode()
         else: return decrypted_data
 
+    def generate_key(self):
+        key = Fernet.generate_key()
+        with open("enckey.key", "wb") as key_file:
+            key_file.write(key)
+        return key      # TODO: Remove this later
 
+    def load_key(self):
+        return open("enckey", "rb").read()
+
+    def encrypt_(self, data, key):
+        enc = Fernet(key)
+        encrypted_data = enc.encrypt(data.encode())
+        print(encrypted_data)
+
+
+enc = Encryptor()
+k = enc.generate_key()
+enc.encrypt_('lukas', k)
