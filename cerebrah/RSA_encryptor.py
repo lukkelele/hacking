@@ -13,8 +13,6 @@ import time
 class Encryptor:
 
     def __init__(self, path=''):
-        if path == '':
-            print('No key import executed')
         self.arg_parser = argparse.ArgumentParser()
         self.arg_parser.add_argument(
             '-v', '--verbose',
@@ -36,21 +34,28 @@ class Encryptor:
         if hashed_user_password == password: return True
         else: return False
 
-    def generate_key(self):
-        key = Fernet.generate_key()
-        with open("enckey.key", "wb") as key_file:
-            key_file.write(key)
-        return key      # TODO: Remove this later
+    def generate_keypair(self):
+        if self.args.verbose == True:
+            print("==> Generating new keypair...")
+        keysize = 256*4
+        private_key = RSA.generate(keysize, Random.new().read)
+        public_key = private_key.publickey()
+        return private_key, public_key
 
-    def load_key(self):
-        return open("enckey", "rb").read()
+    def encrypt(self, data, public_key, encode=False):
+        if self.args.verbose == True:
+            print(f"==> Encrypting: {data}")
+        encryptor = PKCS1_OAEP.new(public_key)
+        if encode: encrypted_data = encryptor.encrypt(data.encode())
+        else: encrypted_data = encryptor.encrypt(data)
+        return encrypted_data
 
-    def encrypt_(self, data, key):
-        enc = Fernet(key)
-        encrypted_data = enc.encrypt(data.encode())
-        print(encrypted_data)
+    def decrypt(self, encrypted_data, private_key, decode=True):
+        if self.args.verbose == True:
+            print(f"==> Decrypting: {encrypted_data}")
+        decryptor = PKCS1_OAEP.new(private_key)
+        decrypted_data = decryptor.decrypt(encrypted_data)
+        if decode == True: return decrypted_data.decode()
+        else: return decrypted_data
 
 
-enc = Encryptor()
-k = enc.generate_key()
-enc.encrypt_('lukas', k)
