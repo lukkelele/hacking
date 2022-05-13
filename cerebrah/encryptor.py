@@ -12,15 +12,11 @@ import time
 
 class Encryptor:
 
-    def __init__(self, path=''):
-        if path == '':
-            print('No key import executed')
-        self.arg_parser = argparse.ArgumentParser()
-        self.arg_parser.add_argument(
-            '-v', '--verbose',
-            help='Increase output verbosity',
-            action="store_true")
-        self.args = self.arg_parser.parse_args()
+    def __init__(self, key_dir=''):
+        if key_dir == '': 
+            self.generate_key()
+            self.key = self.load_key("./")
+        else: self.key = self.load_key(key_dir) 
 
     def hash(self, password, salt):
         return hashlib.sha512(salt.encode() + password.encode()).hexdigest() + ":" + salt
@@ -36,21 +32,35 @@ class Encryptor:
         if hashed_user_password == password: return True
         else: return False
 
-    def generate_key(self):
+    def generate_key(self, key_dir=''):
         key = Fernet.generate_key()
-        with open("enckey.key", "wb") as key_file:
-            key_file.write(key)
+        if key_dir == '':
+            with open("enckey.key", "wb") as key_file:
+                key_file.write(key)
+        else:
+            key_path = key_dir + 'enckey.key'
+            with open(key_path, "wb") as key_file:
+                key_file.write(key)
         return key      # TODO: Remove this later
 
-    def load_key(self):
-        return open("enckey", "rb").read()
+    def load_key(self, key_dir):
+        key_dir += 'enckey.key'
+        return open(key_dir, "rb").read()
 
-    def encrypt_(self, data, key):
+    def encrypt(self, data, key):
         enc = Fernet(key)
         encrypted_data = enc.encrypt(data.encode())
         print(encrypted_data)
+        return encrypted_data
+
+    def decrypt(self, data, key):
+        enc = Fernet(key)
+        decrypted_data = enc.decrypt(data)
+        print(decrypted_data.decode())
+        return decrypted_data.decode()
 
 
 enc = Encryptor()
 k = enc.generate_key()
-enc.encrypt_('lukas', k)
+enc_data = enc.encrypt('lukas', k)
+enc.decrypt(enc_data, k)
