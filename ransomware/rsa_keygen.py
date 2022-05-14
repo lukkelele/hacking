@@ -1,5 +1,4 @@
 from Crypto.PublicKey import RSA
-from Crypto.Random import get_random_bytes
 from os import urandom, read
 import base64
 
